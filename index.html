@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Party Hopper Bus Co. - party bus rentals for birthdays, bachelorette parties, prom, weddings and game days across the DFW Metroplex.">
+<link rel="icon" href="logo.png">
+<title>Party Hopper Bus Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titan+One&family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: 1930s rubber-hose cartoon. Cream ink on black, grain overlay, round chunky type, the logo's side-dots as the recurring motif. */
+:root{
+  --ink:#0d0c0b; --panel:#171513; --panel-2:#211e1a; --line:#38322b;
+  --cream:#f1ead8; --muted:#b3ab99; --dim:#5e574c; --err:#ec8a6e;
+  --display:"Titan One","Arial Rounded MT Bold","Arial Black",sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0}
+img{max-width:100%}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--cream);font:16px/1.6 var(--body)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cream);outline-offset:3px;border-radius:6px}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.09;mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 -0.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;text-wrap:balance;margin:0;letter-spacing:.01em}
+.eyebrow{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.muted{color:var(--muted)}
+
+/* header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--ink) 90%,transparent);backdrop-filter:blur(8px);border-bottom:2px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{height:42px;width:auto}
+.brand span{font-family:var(--display);font-size:1.1rem;line-height:1}
+nav{display:flex;gap:6px;align-items:center}
+nav a{text-decoration:none;font-weight:700;padding:8px 14px;border-radius:999px;color:var(--muted)}
+nav a[aria-current="page"]{color:var(--cream);background:var(--panel-2)}
+nav a.tel{color:var(--cream)}
+nav a.cta{background:var(--cream);color:var(--ink)}
+
+/* buttons: cartoon offset shadow */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:800 1rem var(--body);padding:14px 24px;border-radius:999px;cursor:pointer;text-decoration:none;border:2.5px solid var(--cream);transition:transform .12s,box-shadow .12s}
+.btn-primary{background:var(--cream);color:var(--ink);box-shadow:4px 4px 0 var(--dim)}
+.btn-primary:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--dim)}
+.btn-primary:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--dim)}
+.btn-ghost{background:transparent;color:var(--cream)}
+.btn-ghost:hover{background:var(--panel-2)}
+
+/* the logo's side dots, chasing */
+.dotrow{height:16px;background:radial-gradient(circle,var(--cream) 3.5px,transparent 4.2px) 0 50%/24px 16px repeat-x;animation:chase 1.4s steps(2) infinite;opacity:.85}
+@keyframes chase{to{background-position:12px 50%}}
+
+/* hero */
+.hero{padding-block:48px 36px}
+.hero-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:32px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,7vw,4.8rem);margin-top:14px}
+.hero p.lede{font-size:1.15rem;max-width:32em;color:var(--muted);margin:20px 0 28px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px}
+.hero-art{display:grid;place-items:center}
+.hero-art img{width:100%;max-width:520px;height:auto;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-8px) rotate(1deg)}}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border:2.5px solid var(--cream);border-radius:20px;overflow:hidden;margin-top:36px}
+.fact{padding:16px 20px;border-right:2px solid var(--line);display:grid;gap:2px}
+.fact:last-child{border-right:0}
+.fact span{font-size:.82rem;color:var(--muted);font-weight:600}
+.fact b{font-family:var(--display);font-weight:400;font-size:1.35rem;font-variant-numeric:tabular-nums}
+
+/* gallery */
+.gallery{padding-block:48px}
+.gal-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.gal-head h2{font-size:clamp(1.8rem,4vw,2.6rem)}
+.gal-ctrl{display:flex;gap:10px}
+.round{width:48px;height:48px;border-radius:50%;border:2.5px solid var(--cream);background:var(--ink);color:var(--cream);font-size:1.2rem;font-weight:800;cursor:pointer;box-shadow:3px 3px 0 var(--dim)}
+.round:hover{background:var(--cream);color:var(--ink)}
+.track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:22px}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:start;position:relative;aspect-ratio:16/8;max-width:100%;border-radius:22px;overflow:hidden;border:2.5px solid var(--cream);margin:0}
+.slide img{width:100%;height:100%;object-fit:cover;display:block}
+.slide figcaption{position:absolute;left:0;right:0;bottom:0;padding:56px 24px 20px;background:linear-gradient(transparent,rgba(13,12,11,.92));font-family:var(--display);font-size:1.3rem}
+.slide figcaption small{display:block;font-family:var(--body);font-size:.95rem;color:var(--muted)}
+.ph{width:100%;height:100%;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.9rem;font-weight:600}
+.ph span{border:2px dashed var(--dim);padding:8px 16px;border-radius:999px;background:var(--ink)}
+.ph1{background:repeating-linear-gradient(90deg,#1c1916 0 48px,#26221d 48px 52px)}
+.ph2{background:radial-gradient(circle,#2e2a24 2px,transparent 3px) 0 0/22px 22px,#171513}
+.ph3{background:repeating-radial-gradient(circle at 50% 120%,#1b1815 0 22px,#25211c 22px 26px)}
+.ph4{background:linear-gradient(180deg,#0d0c0b,#262119)}
+.ph5{background:repeating-linear-gradient(45deg,#1a1714 0 18px,#221e1a 18px 36px)}
+.dots{display:flex;justify-content:center;gap:10px;margin-top:18px}
+.dots button{width:12px;height:12px;border-radius:50%;border:2px solid var(--cream);background:transparent;cursor:pointer;padding:0}
+.dots button[aria-current="true"]{background:var(--cream)}
+
+/* features + occasions */
+.section{padding-block:48px}
+.section h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:24px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feature{padding:22px;border:2.5px solid var(--cream);border-radius:20px;background:var(--panel)}
+.feature h3{font-size:1.25rem;margin-bottom:8px}
+.feature p{margin:0;color:var(--muted)}
+.occasions{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:10px 18px;border-radius:999px;border:2px solid var(--line);font-weight:700}
+.cta-band{margin-block:48px;padding:40px;border-radius:26px;background:var(--cream);color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.cta-band h2{font-size:clamp(1.6rem,3.5vw,2.4rem)}
+.cta-band p{margin:6px 0 0;color:#4a443a}
+.cta-band .btn{background:var(--ink);color:var(--cream);border-color:var(--ink);box-shadow:4px 4px 0 #b8ae98}
+
+/* booking */
+.book{padding-block:40px 64px}
+.book h1{font-size:clamp(2.2rem,5.5vw,3.6rem);margin:10px 0 8px}
+.notice{margin:20px 0 28px;padding:12px 16px;border-radius:12px;border:2px dashed var(--dim);color:var(--muted);font-size:.92rem}
+.book-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:start}
+form{display:grid;gap:22px;min-width:0}
+fieldset{border:2.5px solid var(--cream);border-radius:20px;padding:20px;margin:0;display:grid;gap:16px;background:var(--panel)}
+legend{font-family:var(--display);padding:0 10px;font-size:1.05rem}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:grid;gap:6px;font-weight:700;font-size:.92rem;min-width:0}
+input,select,textarea{font:inherit;font-weight:500;color:var(--cream);background:var(--ink);border:2px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--cream);outline:none}
+textarea{min-height:90px;resize:vertical}
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.types label{display:block;cursor:pointer;position:relative}
+.types input{position:absolute;opacity:0;width:1px;height:1px}
+.types span{display:block;text-align:center;padding:12px 8px;border-radius:999px;border:2px solid var(--line);background:var(--ink);font-weight:700}
+.types input:checked+span{border-color:var(--cream);background:var(--cream);color:var(--ink)}
+.types input:focus-visible+span{outline:2px solid var(--cream);outline-offset:3px}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:500}
+.check input{width:20px;height:20px;flex:0 0 auto;margin-top:2px;accent-color:var(--cream)}
+.summary{position:sticky;top:calc(env(safe-area-inset-top,0px) + 80px);border-radius:22px;background:var(--panel);border:2.5px solid var(--cream);overflow:hidden;box-shadow:6px 6px 0 var(--dim)}
+.summary .in{padding:22px;display:grid;gap:14px}
+.summary h2{font-size:1.5rem}
+.line{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
+.line.total{border-top:2px solid var(--line);padding-top:12px;font-weight:800;font-size:1.1rem}
+.line.dep b{font-family:var(--display);font-weight:400;font-size:1.2rem}
+.rules{margin:0;padding-left:18px;color:var(--muted);font-size:.88rem;display:grid;gap:4px}
+.done{border:2.5px solid var(--cream);border-radius:20px;padding:22px;background:var(--panel)}
+.done h2{font-size:1.6rem;margin-bottom:8px}
+.err{margin:0;color:var(--err);font-weight:600}
+
+footer{border-top:2px solid var(--line);padding-block:28px;color:var(--muted);font-size:.92rem}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+footer b{color:var(--cream)}
+footer a{text-decoration:none}
+
+@media (max-width:820px){
+  .hero-grid,.book-grid{grid-template-columns:1fr}
+  .hero-art{order:-1}.hero-art img{max-width:340px}
+  .facts{grid-template-columns:1fr 1fr}
+  .fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:2px solid var(--line)}
+  .features{grid-template-columns:1fr}
+  .summary{position:static}
+  .slide{aspect-ratio:4/3}
+}
+@media (max-width:480px){
+  .row{grid-template-columns:1fr}
+  .types{grid-template-columns:1fr 1fr}
+  nav a:not(.cta){display:none}
+  .brand span{font-size:.95rem}
+  .cta-band{padding:24px}
+}
+@media (prefers-reduced-motion:reduce){.dotrow,.hero-art img{animation:none}html{scroll-behavior:auto}.btn{transition:none}}
+</style>
+
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#home"><img src="logo.png" alt=""><span>Party Hopper<br>Bus Co.</span></a>
+    <nav>
+      <a href="#home" id="nav-home">Home</a>
+      <a href="tel:+15129567452" class="tel">(512) 956-7452</a>
+      <a href="#book" class="cta">Book now</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ========== HOME ========== -->
+<section id="view-home">
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Serving the DFW Metroplex</div>
+        <h1>The party starts before you get there.</h1>
+        <p class="lede">LED lights, a loud sound system and a sober driver. Book the bus for birthdays, bachelorette nights, proms, game days and anything else worth celebrating.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#book">Check dates &amp; book</a>
+          <a class="btn btn-ghost" href="#gallery">See the bus</a>
+        </div>
+      </div>
+      <div class="hero-art"><img src="logo.png" alt="Party Hopper Bus Co. mascot: a cartoon party bus giving a peace sign and holding a martini"></div>
+    </div>
+    <div class="facts" aria-label="Quick facts">
+      <div class="fact"><span>Guests</span><b>Up to 20</b></div>
+      <div class="fact"><span>Weekday rate</span><b>$135/hr</b></div>
+      <div class="fact"><span>Fri &amp; Sat rate</span><b>$165/hr</b></div>
+      <div class="fact"><span>Minimum</span><b>3 hours</b></div>
+    </div>
+  </div>
+  <div class="dotrow" aria-hidden="true"></div>
+
+  <section class="wrap gallery" id="gallery" aria-label="Photo gallery">
+    <div class="gal-head">
+      <div>
+        <div class="eyebrow">Inside the bus</div>
+        <h2>Take a look around</h2>
+      </div>
+      <div class="gal-ctrl">
+        <button class="round" id="prev" aria-label="Previous photo">&#8592;</button>
+        <button class="round" id="next" aria-label="Next photo">&#8594;</button>
+      </div>
+    </div>
+    <div class="track" id="track" tabindex="0" aria-roledescription="carousel">
+      <!-- To use your photos: replace each <div class="ph ..."> with <img src="photo1.jpg" alt="describe the photo"> -->
+      <figure class="slide"><div class="ph ph1"><span>Photo 1: LED ceiling</span></div><figcaption>LED light show<small>Color-changing lights across the whole cabin</small></figcaption></figure>
+      <figure class="slide"><div class="ph ph2"><span>Photo 2: Seating</span></div><figcaption>Wraparound lounge seating<small>Room for the whole crew to face each other</small></figcaption></figure>
+      <figure class="slide"><div class="ph ph3"><span>Photo 3: Sound system</span></div><figcaption>Bluetooth sound system<small>Plug in your playlist and turn it up</small></figcaption></figure>
+      <figure class="slide"><div class="ph ph4"><span>Photo 4: Exterior at night</span></div><figcaption>Door-to-door pickup<small>We bring the party to your front door</small></figcaption></figure>
+      <figure class="slide"><div class="ph ph5"><span>Photo 5: Group shot</span></div><figcaption>Your night, your route<small>Bar hops, venues, stadiums, anywhere in DFW</small></figcaption></figure>
+    </div>
+    <div class="dots" id="dots" aria-label="Choose photo"></div>
+  </section>
+
+  <section class="wrap section">
+    <div class="eyebrow">Every booking includes</div>
+    <h2>Just bring the people</h2>
+    <div class="features">
+      <div class="feature"><h3>Licensed driver</h3><p>A professional driver handles the roads so nobody has to stay sober.</p></div>
+      <div class="feature"><h3>Ice-cold AC</h3><p>Dual AC keeps the cabin cool, even in a Texas August.</p></div>
+      <div class="feature"><h3>Your playlist</h3><p>Bluetooth audio and lights you can set to match the mood.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="eyebrow">Popular occasions</div>
+    <h2>What are we celebrating?</h2>
+    <div class="occasions">
+      <span class="chip">Birthdays</span><span class="chip">Bachelor &amp; bachelorette</span><span class="chip">Prom &amp; homecoming</span><span class="chip">Weddings</span><span class="chip">Cowboys &amp; Rangers games</span><span class="chip">Concerts</span><span class="chip">Quinceañeras</span><span class="chip">Corporate outings</span>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="cta-band">
+      <div>
+        <h2>Got a date in mind?</h2>
+        <p>Weekends fill up fast, especially prom and holiday season.</p>
+      </div>
+      <a class="btn" href="#book">Book your date</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BOOK ========== -->
+<section id="view-book" hidden>
+  <div class="wrap book">
+    <div class="eyebrow">Reserve the bus</div>
+    <h1>Book your night</h1>
+    <p class="muted" style="margin:0">Pick your date and hours. A 25% deposit holds the bus; the balance is due on the day.</p>
+    <p class="notice">Preview: this form doesn't send bookings yet. It will once it's connected to Square Appointments.</p>
+
+    <div class="book-grid">
+      <div style="min-width:0">
+        <form id="bookForm" novalidate>
+          <fieldset>
+            <legend>Occasion</legend>
+            <div class="types" role="radiogroup" aria-label="Occasion">
+              <label><input type="radio" name="type" value="Birthday" checked><span>Birthday</span></label>
+              <label><input type="radio" name="type" value="Bachelor/ette"><span>Bachelor/ette</span></label>
+              <label><input type="radio" name="type" value="Prom"><span>Prom</span></label>
+              <label><input type="radio" name="type" value="Wedding"><span>Wedding</span></label>
+              <label><input type="radio" name="type" value="Game / concert"><span>Game / concert</span></label>
+              <label><input type="radio" name="type" value="Other"><span>Other</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Date &amp; time</legend>
+            <div class="row">
+              <label for="date">Date<input type="date" id="date" name="date" required></label>
+              <label for="start">Pickup time<select id="start" name="start" required></select></label>
+            </div>
+            <div class="row">
+              <label for="hours">Hours<select id="hours" name="hours"></select></label>
+              <label for="guests">Guests<input type="number" id="guests" name="guests" min="1" max="20" value="12" required></label>
+            </div>
+            <label for="pickup">Pickup address<input type="text" id="pickup" name="pickup" placeholder="Street, city" required></label>
+            <label for="dropoff">Stops or drop-off (optional)<input type="text" id="dropoff" name="dropoff" placeholder="e.g. Sundance Square, then back home"></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Your details</legend>
+            <div class="row">
+              <label for="name">Full name<input type="text" id="name" name="name" autocomplete="name" required></label>
+              <label for="phone">Mobile number<input type="tel" id="phone" name="phone" autocomplete="tel" required></label>
+            </div>
+            <label for="email">Email<input type="email" id="email" name="email" autocomplete="email" required></label>
+            <label for="notes">Anything we should know? (optional)<textarea id="notes" name="notes" placeholder="Decorations, a special song, a surprise stop..."></textarea></label>
+            <label class="check" for="agree"><input type="checkbox" id="agree" name="agree" required><span>I agree to the rental rules, including the 21+ drinking policy and the cleaning fee for spills or damage.</span></label>
+          </fieldset>
+
+          <button class="btn btn-primary" type="submit" style="justify-self:start">Request this booking</button>
+          <p id="formError" class="err" role="alert" hidden>Fill in the highlighted fields and accept the rental rules.</p>
+        </form>
+        <div id="done" class="done" hidden role="status">
+          <h2>Booking request ready</h2>
+          <p id="doneText" style="margin:0"></p>
+          <p class="muted" style="margin:12px 0 0">Once Square is connected, this step will take the deposit and confirm the date.</p>
+          <button class="btn btn-ghost" id="again" type="button" style="margin-top:16px">Edit request</button>
+        </div>
+      </div>
+
+      <aside class="summary" aria-label="Price estimate">
+        <div class="dotrow" aria-hidden="true" style="margin-top:10px"></div>
+        <div class="in">
+          <h2>Your estimate</h2>
+          <div class="line"><span id="sumWhen" class="muted">Pick a date</span></div>
+          <div class="line"><span id="sumRateLbl">Rate</span><span id="sumRate">$0</span></div>
+          <div class="line"><span>Hours</span><span id="sumHours">3</span></div>
+          <div class="line total"><span>Total</span><span id="sumTotal">$0</span></div>
+          <div class="line dep"><span>Deposit due today (25%)</span><b id="sumDep">$0</b></div>
+          <ul class="rules">
+            <li>3-hour minimum on every booking</li>
+            <li>Driver gratuity not included</li>
+            <li>No glass bottles; cans and plastic only</li>
+            <li>Free date change up to 7 days out</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="yr"></span> Party Hopper Bus Co. · Serving the DFW Metroplex</span>
+    <span>Call or text: <a href="tel:+15129567452"><b>(512) 956-7452</b></a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s);
+  const RATE_WEEKDAY=135, RATE_WEEKEND=165, MIN_HRS=3, MAX_HRS=8, DEPOSIT=0.25;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('#yr').textContent=new Date().getFullYear();
+
+  /* ---- views ---- */
+  function route(){
+    const book=location.hash==='#book';
+    $('#view-home').hidden=book; $('#view-book').hidden=!book;
+    if(book)$('#nav-home').removeAttribute('aria-current'); else $('#nav-home').setAttribute('aria-current','page');
+    if(book||location.hash==='#home'||location.hash==='')window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',route); route();
+
+  /* ---- gallery ---- */
+  const track=$('#track'), slides=[...track.children], dots=$('#dots');
+  slides.forEach((_,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Photo '+(i+1));b.addEventListener('click',()=>go(i));dots.appendChild(b)});
+  let idx=0;
+  function go(i){idx=(i+slides.length)%slides.length;track.scrollTo({left:slides[idx].offsetLeft-track.offsetLeft,behavior:reduce?'auto':'smooth'})}
+  function mark(){idx=Math.round(track.scrollLeft/(slides[0].offsetWidth+16));[...dots.children].forEach((d,i)=>d.setAttribute('aria-current',i===idx))}
+  track.addEventListener('scroll',()=>{clearTimeout(track._t);track._t=setTimeout(mark,60)});
+  $('#prev').addEventListener('click',()=>go(idx-1));
+  $('#next').addEventListener('click',()=>go(idx+1));
+  track.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();go(idx+1)}if(e.key==='ArrowLeft'){e.preventDefault();go(idx-1)}});
+  let paused=false; const gal=$('#gallery');
+  ['mouseenter','focusin','touchstart'].forEach(ev=>gal.addEventListener(ev,()=>paused=true,{passive:true}));
+  ['mouseleave','focusout'].forEach(ev=>gal.addEventListener(ev,()=>paused=false));
+  if(!reduce)setInterval(()=>{if(!paused&&!$('#view-home').hidden&&!document.hidden)go(idx+1)},4500);
+  mark();
+
+  /* ---- booking ---- */
+  const date=$('#date'), start=$('#start'), hours=$('#hours');
+  const local=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+  const today=new Date(); date.min=local(today);
+  const ex=new Date(today); ex.setDate(ex.getDate()+(((5-ex.getDay()+7)%7)||7)); date.value=local(ex); // example: next Friday
+  const fmtT=m=>{let h=Math.floor(m/60)%24,mm=m%60,ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+String(mm).padStart(2,'0')+' '+ap};
+  for(let m=10*60;m<=23*60;m+=30){const o=new Option(fmtT(m),m);if(m===19*60)o.selected=true;start.add(o)}
+  for(let h=MIN_HRS;h<=MAX_HRS;h++)hours.add(new Option(h+' hours',h));
+  const money=n=>'$'+n.toLocaleString('en-US',{maximumFractionDigits:2});
+
+  function calc(){
+    const h=+hours.value, s=+start.value;
+    let rate=RATE_WEEKDAY, when='Pick a date';
+    if(date.value){
+      const d=new Date(date.value+'T12:00:00'), wk=d.getDay()===5||d.getDay()===6;
+      rate=wk?RATE_WEEKEND:RATE_WEEKDAY;
+      when=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+' · '+fmtT(s)+' to '+fmtT(s+h*60);
+      $('#sumRateLbl').textContent=wk?'Fri/Sat rate':'Weekday rate';
+    }
+    const total=rate*h;
+    $('#sumWhen').textContent=when; $('#sumRate').textContent=money(rate)+'/hr';
+    $('#sumHours').textContent=h; $('#sumTotal').textContent=money(total); $('#sumDep').textContent=money(total*DEPOSIT);
+    return {total,when};
+  }
+  ['change','input'].forEach(ev=>$('#bookForm').addEventListener(ev,calc)); calc();
+
+  $('#bookForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    const f=e.target, bad=[...f.querySelectorAll('[required]')].filter(el=>!el.checkValidity());
+    f.querySelectorAll('input,select').forEach(el=>el.style.borderColor='');
+    if(bad.length){bad.forEach(el=>{if(el.type!=='checkbox')el.style.borderColor='var(--err)'});$('#formError').hidden=false;bad[0].focus();return}
+    $('#formError').hidden=true;
+    const r=calc(), type=f.querySelector('[name=type]:checked').value;
+    $('#doneText').textContent=type+' for '+$('#guests').value+' guests, '+r.when+'. Total '+money(r.total)+', deposit '+money(r.total*DEPOSIT)+'. Pickup at '+$('#pickup').value+'.';
+    f.hidden=true; $('#done').hidden=false; $('#done').scrollIntoView({block:'center'});
+  });
+  $('#again').addEventListener('click',()=>{$('#done').hidden=true;$('#bookForm').hidden=false});
+})();
+</script>
+
+</body>
+</html>
