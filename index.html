@@ -258,7 +258,6 @@ footer a{text-decoration:none}
     <div class="eyebrow">Reserve the bus</div>
     <h1>Book your night</h1>
     <p class="muted" style="margin:0">Pick your date and hours. A 25% deposit is due today to hold the bus, and the rest is due at pickup.</p>
-    <p class="notice">Preview: this form doesn't send bookings yet. It will once it's connected to Square Appointments.</p>
 
     <div class="book-grid">
       <div style="min-width:0">
@@ -295,16 +294,17 @@ footer a{text-decoration:none}
           </fieldset>
 
           <div class="form-actions">
-            <button class="btn btn-primary" type="submit">Request this booking</button>
+            <button class="btn btn-primary" type="submit" id="submitBtn">Request this booking</button>
             <a class="btn btn-ghost" href="sms:+15129567452">Text (512) 956-7452 for a quote</a>
           </div>
+          <input type="checkbox" name="botcheck" id="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
           <p id="formError" class="err" role="alert" hidden>Fill in the highlighted fields.</p>
         </form>
         <div id="done" class="done" hidden role="status">
-          <h2>Booking request ready</h2>
+          <h2>Request sent!</h2>
           <p id="doneText" style="margin:0"></p>
-          <p class="muted" style="margin:12px 0 0">Once Square is connected, this step will take the deposit and confirm the date.</p>
-          <button class="btn btn-ghost" id="again" type="button" style="margin-top:16px">Edit request</button>
+          <p class="muted" style="margin:12px 0 0" id="doneNext"></p>
+          <button class="btn btn-ghost" id="again" type="button" style="margin-top:16px">Send another request</button>
         </div>
       </div>
 
@@ -340,6 +340,7 @@ footer a{text-decoration:none}
 <script>
 (function(){
   const $=s=>document.querySelector(s);
+  const WEB3FORMS_KEY='178a6141-8772-4a7b-863e-7a7db396519e';
   const RATE_4PLUS=150, RATE_3=165, MIN_HRS=3, MAX_HRS=8, DEPOSIT=0.25;
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   $('#yr').textContent=new Date().getFullYear();
@@ -399,14 +400,46 @@ footer a{text-decoration:none}
     e.preventDefault();
     const f=e.target, bad=[...f.querySelectorAll('[required]')].filter(el=>!el.checkValidity());
     f.querySelectorAll('input,select').forEach(el=>el.style.borderColor='');
-    if(bad.length){bad.forEach(el=>{if(el.type!=='checkbox')el.style.borderColor='var(--err)'});$('#formError').hidden=false;bad[0].focus();return}
+    if(bad.length){bad.forEach(el=>{if(el.type!=='checkbox')el.style.borderColor='var(--err)'});$('#formError').textContent='Fill in the highlighted fields.';$('#formError').hidden=false;bad[0].focus();return}
     $('#formError').hidden=true;
-    const r=calc(), type=$('#occasion').value.trim();
-    const g=$('#guests').value;
-    $('#doneText').textContent=(type||'Party bus booking')+(g?' for '+g+' guests':'')+', '+r.when+'. Total '+money(r.total)+', deposit '+money(r.total*DEPOSIT)+' due today, rest due at pickup. Pickup at '+$('#pickup').value+'.';
-    f.hidden=true; $('#done').hidden=false; $('#done').scrollIntoView({block:'center'});
+    if($('#botcheck').checked)return;
+    const r=calc(), type=$('#occasion').value.trim(), g=$('#guests').value.trim(), v=id=>$('#'+id).value.trim();
+    const summary=(type||'Party bus booking')+(g?' for '+g+' guests':'')+', '+r.when+'. Total '+money(r.total)+', deposit '+money(r.total*DEPOSIT)+' due today, rest due at pickup. Pickup at '+v('pickup')+'.';
+    const payload={
+      access_key:WEB3FORMS_KEY,
+      subject:'New booking request: '+r.when+' ('+v('name')+')',
+      from_name:'Party Hopper website',
+      replyto:v('email'),
+      'Occasion':type||'(not given)',
+      'When':r.when,
+      'Hours':hours.value,
+      'Guests':g||'(not given)',
+      'Pickup address':v('pickup'),
+      'Stops / drop-off':v('dropoff')||'(none)',
+      'Name':v('name'),
+      'Phone':v('phone'),
+      'Email':v('email'),
+      'Notes':v('notes')||'(none)',
+      'Agreed to rental rules':$('#agree').checked?'Yes':'No',
+      'Estimated total':money(r.total),
+      'Deposit (25%)':money(r.total*DEPOSIT),
+      'Due at pickup':money(r.total-r.total*DEPOSIT)
+    };
+    const btn=$('#submitBtn'); btn.disabled=true; btn.textContent='Sending...';
+    fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)})
+      .then(res=>res.json().catch(()=>({})).then(j=>{if(!res.ok||j.success===false)throw new Error(j.message||'send failed')}))
+      .then(()=>{
+        $('#doneText').textContent=summary;
+        $('#doneNext').textContent="We'll text you at "+v('phone')+' to confirm your date and collect the deposit.';
+        f.hidden=true; $('#done').hidden=false; $('#done').scrollIntoView({block:'center'});
+      })
+      .catch(()=>{
+        $('#formError').textContent="Your request didn't go through. Try again, or text (512) 956-7452 to book.";
+        $('#formError').hidden=false;
+      })
+      .finally(()=>{btn.disabled=false; btn.textContent='Request this booking'});
   });
-  $('#again').addEventListener('click',()=>{$('#done').hidden=true;$('#bookForm').hidden=false});
+  $('#again').addEventListener('click',()=>{$('#done').hidden=true;$('#bookForm').hidden=false;$('#formError').textContent='Fill in the highlighted fields.'});
 })();
 </script>
 
