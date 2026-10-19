@@ -265,7 +265,7 @@ footer a{text-decoration:none}
         <form id="bookForm" novalidate>
           <fieldset>
             <legend>Occasion</legend>
-            <label for="occasion">What are you celebrating?<input type="text" id="occasion" name="occasion" placeholder="e.g. Birthday, bachelorette, prom, Cowboys game" required></label>
+            <label for="occasion">What are you celebrating? (optional)<input type="text" id="occasion" name="occasion" placeholder="e.g. Birthday, bachelorette, prom, Cowboys game"></label>
           </fieldset>
 
           <fieldset>
@@ -275,8 +275,8 @@ footer a{text-decoration:none}
               <label for="start">Pickup time<select id="start" name="start" required></select></label>
             </div>
             <div class="row">
-              <label for="hours">Hours<select id="hours" name="hours"></select></label>
-              <label for="guests">Guests<input type="number" id="guests" name="guests" min="1" max="25" value="12" required></label>
+              <label for="hours">Hours<select id="hours" name="hours" required></select></label>
+              <label for="guests">Guests (optional)<input type="number" id="guests" name="guests" min="1" max="25" placeholder="Up to 25"></label>
             </div>
             <p class="hint"><b>Your hours include the ride back.</b> The clock runs until we drop everyone off, so count the return trip when you choose how many hours to book.</p>
             <label for="pickup">Pickup address<input type="text" id="pickup" name="pickup" placeholder="Street, city" required></label>
@@ -291,14 +291,14 @@ footer a{text-decoration:none}
             </div>
             <label for="email">Email<input type="email" id="email" name="email" autocomplete="email" required></label>
             <label for="notes">Anything we should know? (optional)<textarea id="notes" name="notes" placeholder="Decorations, a special song, a surprise stop..."></textarea></label>
-            <label class="check" for="agree"><input type="checkbox" id="agree" name="agree" required><span>I agree to the rental rules, including the 21+ drinking policy and the cleaning fee for spills or damage.</span></label>
+            <label class="check" for="agree"><input type="checkbox" id="agree" name="agree"><span>I agree to the rental rules, including the 21+ drinking policy and the cleaning fee for spills or damage.</span></label>
           </fieldset>
 
           <div class="form-actions">
             <button class="btn btn-primary" type="submit">Request this booking</button>
             <a class="btn btn-ghost" href="sms:+15129567452">Text (512) 956-7452 for a quote</a>
           </div>
-          <p id="formError" class="err" role="alert" hidden>Fill in the highlighted fields and accept the rental rules.</p>
+          <p id="formError" class="err" role="alert" hidden>Fill in the highlighted fields.</p>
         </form>
         <div id="done" class="done" hidden role="status">
           <h2>Booking request ready</h2>
@@ -402,7 +402,8 @@ footer a{text-decoration:none}
     if(bad.length){bad.forEach(el=>{if(el.type!=='checkbox')el.style.borderColor='var(--err)'});$('#formError').hidden=false;bad[0].focus();return}
     $('#formError').hidden=true;
     const r=calc(), type=$('#occasion').value.trim();
-    $('#doneText').textContent=type+' for '+$('#guests').value+' guests, '+r.when+'. Total '+money(r.total)+', deposit '+money(r.total*DEPOSIT)+' due today, rest due at pickup. Pickup at '+$('#pickup').value+'.';
+    const g=$('#guests').value;
+    $('#doneText').textContent=(type||'Party bus booking')+(g?' for '+g+' guests':'')+', '+r.when+'. Total '+money(r.total)+', deposit '+money(r.total*DEPOSIT)+' due today, rest due at pickup. Pickup at '+$('#pickup').value+'.';
     f.hidden=true; $('#done').hidden=false; $('#done').scrollIntoView({block:'center'});
   });
   $('#again').addEventListener('click',()=>{$('#done').hidden=true;$('#bookForm').hidden=false});
