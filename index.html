@@ -136,6 +136,7 @@ textarea{min-height:90px;resize:vertical}
 .rules{margin:0;padding-left:18px;color:var(--muted);font-size:.88rem;display:grid;gap:4px}
 .done{border:2.5px solid var(--cream);border-radius:20px;padding:22px;background:var(--panel)}
 .done h2{font-size:1.6rem;margin-bottom:8px}
+.form-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .err{margin:0;color:var(--err);font-weight:600}
 
 footer{border-top:2px solid var(--line);padding-block:28px;color:var(--muted);font-size:.92rem}
@@ -195,7 +196,7 @@ footer a{text-decoration:none}
       <div class="fact"><span>Guests</span><b>Up to 25</b></div>
       <div class="fact"><span>4 hours or more</span><b>$150/hr</b></div>
       <div class="fact"><span>3 hours</span><b>$165/hr</b></div>
-      <div class="fact"><span>2 hours or less</span><b>Text for a quote</b></div>
+      <div class="fact"><span>Under 3 hours</span><b>Text for a custom quote</b></div>
     </div>
   </div>
   <div class="dotrow" aria-hidden="true"></div>
@@ -256,7 +257,7 @@ footer a{text-decoration:none}
   <div class="wrap book">
     <div class="eyebrow">Reserve the bus</div>
     <h1>Book your night</h1>
-    <p class="muted" style="margin:0">Pick your date and hours. A 25% deposit holds the bus; the balance is due on the day.</p>
+    <p class="muted" style="margin:0">Pick your date and hours. A 25% deposit is due today to hold the bus, and the rest is due at pickup.</p>
     <p class="notice">Preview: this form doesn't send bookings yet. It will once it's connected to Square Appointments.</p>
 
     <div class="book-grid">
@@ -293,7 +294,10 @@ footer a{text-decoration:none}
             <label class="check" for="agree"><input type="checkbox" id="agree" name="agree" required><span>I agree to the rental rules, including the 21+ drinking policy and the cleaning fee for spills or damage.</span></label>
           </fieldset>
 
-          <button class="btn btn-primary" type="submit" style="justify-self:start">Request this booking</button>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Request this booking</button>
+            <a class="btn btn-ghost" href="sms:+15129567452">Text (512) 956-7452 for a quote</a>
+          </div>
           <p id="formError" class="err" role="alert" hidden>Fill in the highlighted fields and accept the rental rules.</p>
         </form>
         <div id="done" class="done" hidden role="status">
@@ -313,8 +317,9 @@ footer a{text-decoration:none}
           <div class="line"><span>Hours</span><span id="sumHours">3</span></div>
           <div class="line total"><span>Total</span><span id="sumTotal">$0</span></div>
           <div class="line dep"><span>Deposit due today (25%)</span><b id="sumDep">$0</b></div>
+          <div class="line"><span>Rest due at pickup</span><span id="sumBal">$0</span></div>
           <ul class="rules">
-            <li>2 hours or less: text (512) 956-7452 for a quote</li>
+            <li>Bookings under 3 hours: text (512) 956-7452 for a custom quote</li>
             <li>Booked hours include the drive back</li>
             <li>Driver gratuity not included</li>
             <li>No glass bottles; cans and plastic only</li>
@@ -387,7 +392,7 @@ footer a{text-decoration:none}
     $('#sumRateLbl').textContent=h>=4?'Rate (4+ hours)':'Rate (3 hours)';
     const total=rate*h;
     $('#sumWhen').textContent=when; $('#sumRate').textContent=money(rate)+'/hr';
-    $('#sumHours').textContent=h; $('#sumTotal').textContent=money(total); $('#sumDep').textContent=money(total*DEPOSIT);
+    $('#sumHours').textContent=h; $('#sumTotal').textContent=money(total); $('#sumDep').textContent=money(total*DEPOSIT); $('#sumBal').textContent=money(total-total*DEPOSIT);
     return {total,when};
   }
   ['change','input'].forEach(ev=>$('#bookForm').addEventListener(ev,calc)); calc();
@@ -399,7 +404,7 @@ footer a{text-decoration:none}
     if(bad.length){bad.forEach(el=>{if(el.type!=='checkbox')el.style.borderColor='var(--err)'});$('#formError').hidden=false;bad[0].focus();return}
     $('#formError').hidden=true;
     const r=calc(), type=$('#occasion').value.trim();
-    $('#doneText').textContent=type+' for '+$('#guests').value+' guests, '+r.when+'. Total '+money(r.total)+', deposit '+money(r.total*DEPOSIT)+'. Pickup at '+$('#pickup').value+'.';
+    $('#doneText').textContent=type+' for '+$('#guests').value+' guests, '+r.when+'. Total '+money(r.total)+', deposit '+money(r.total*DEPOSIT)+' due today, rest due at pickup. Pickup at '+$('#pickup').value+'.';
     f.hidden=true; $('#done').hidden=false; $('#done').scrollIntoView({block:'center'});
   });
   $('#again').addEventListener('click',()=>{$('#done').hidden=true;$('#bookForm').hidden=false});
