@@ -197,10 +197,10 @@ footer a{text-decoration:none}
       <div class="hero-art"><img src="logo.png" alt="Party Hopper Bus Co. mascot: a cartoon party bus giving a peace sign and holding a martini"></div>
     </div>
     <div class="facts" aria-label="Quick facts">
-      <div class="fact"><span>Guests</span><b>Up to 20</b></div>
-      <div class="fact"><span>Weekday rate</span><b>$135/hr</b></div>
-      <div class="fact"><span>Fri &amp; Sat rate</span><b>$165/hr</b></div>
-      <div class="fact"><span>Minimum</span><b>3 hours</b></div>
+      <div class="fact"><span>Guests</span><b>Up to 25</b></div>
+      <div class="fact"><span>4 hours or more</span><b>$150/hr</b></div>
+      <div class="fact"><span>3 hours</span><b>$165/hr</b></div>
+      <div class="fact"><span>2 hours or less</span><b>Text for a quote</b></div>
     </div>
   </div>
   <div class="dotrow" aria-hidden="true"></div>
@@ -287,7 +287,7 @@ footer a{text-decoration:none}
             </div>
             <div class="row">
               <label for="hours">Hours<select id="hours" name="hours"></select></label>
-              <label for="guests">Guests<input type="number" id="guests" name="guests" min="1" max="20" value="12" required></label>
+              <label for="guests">Guests<input type="number" id="guests" name="guests" min="1" max="25" value="12" required></label>
             </div>
             <label for="pickup">Pickup address<input type="text" id="pickup" name="pickup" placeholder="Street, city" required></label>
             <label for="dropoff">Stops or drop-off (optional)<input type="text" id="dropoff" name="dropoff" placeholder="e.g. Sundance Square, then back home"></label>
@@ -325,7 +325,7 @@ footer a{text-decoration:none}
           <div class="line total"><span>Total</span><span id="sumTotal">$0</span></div>
           <div class="line dep"><span>Deposit due today (25%)</span><b id="sumDep">$0</b></div>
           <ul class="rules">
-            <li>3-hour minimum on every booking</li>
+            <li>2 hours or less: text (512) 956-7452 for a quote</li>
             <li>Driver gratuity not included</li>
             <li>No glass bottles; cans and plastic only</li>
             <li>Free date change up to 7 days out</li>
@@ -347,7 +347,7 @@ footer a{text-decoration:none}
 <script>
 (function(){
   const $=s=>document.querySelector(s);
-  const RATE_WEEKDAY=135, RATE_WEEKEND=165, MIN_HRS=3, MAX_HRS=8, DEPOSIT=0.25;
+  const RATE_4PLUS=150, RATE_3=165, MIN_HRS=3, MAX_HRS=8, DEPOSIT=0.25;
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   $('#yr').textContent=new Date().getFullYear();
 
@@ -388,13 +388,13 @@ footer a{text-decoration:none}
 
   function calc(){
     const h=+hours.value, s=+start.value;
-    let rate=RATE_WEEKDAY, when='Pick a date';
+    const rate=h>=4?RATE_4PLUS:RATE_3;
+    let when='Pick a date';
     if(date.value){
-      const d=new Date(date.value+'T12:00:00'), wk=d.getDay()===5||d.getDay()===6;
-      rate=wk?RATE_WEEKEND:RATE_WEEKDAY;
+      const d=new Date(date.value+'T12:00:00');
       when=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+' · '+fmtT(s)+' to '+fmtT(s+h*60);
-      $('#sumRateLbl').textContent=wk?'Fri/Sat rate':'Weekday rate';
     }
+    $('#sumRateLbl').textContent=h>=4?'Rate (4+ hours)':'Rate (3 hours)';
     const total=rate*h;
     $('#sumWhen').textContent=when; $('#sumRate').textContent=money(rate)+'/hr';
     $('#sumHours').textContent=h; $('#sumTotal').textContent=money(total); $('#sumDep').textContent=money(total*DEPOSIT);
